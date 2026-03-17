@@ -12,6 +12,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     private Vector2 velocity;
     public bool _isGrounded = false;
+    public bool _isDucked = false;
     
     [Header("Stats")]
     [SerializeField] private float jumpForce = 3f;
@@ -31,12 +32,31 @@ public class PlayerMovement : MonoBehaviour
         {
             Jump();
         }
+
+        if (IOTest.instance.duckPressed)
+        {
+            Duck(true);
+        }
+        else
+        {
+           Duck(false); 
+        }
     }
 
     void Jump()
     {
         if (!_isGrounded) return;
         _rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse); //Add force to y (up) direction 
+    }
+
+    void Duck(bool isDucked)
+    {
+        _isDucked = isDucked;
+        float yScale = 1;
+        if(isDucked) yScale /= 2;
+        
+        this.transform.localScale = new Vector3(this.transform.localScale.x, yScale, this.transform.localScale.z);
+        
     }
 
 
