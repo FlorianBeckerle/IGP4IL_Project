@@ -7,12 +7,14 @@ public class PlayerMovement : MonoBehaviour
     private IOTest ioTest;
     [SerializeField]
     private Rigidbody2D _rb;
+    [SerializeField]
+    private Animator _animator;
     
     [Header("Movement")]
     [SerializeField]
-    private Vector2 velocity;
+    private Vector2 _velocity;
     public bool _isGrounded = false;
-    public bool _isDucked = false;
+    private PlayerState _state;
     
     [Header("Stats")]
     [SerializeField] private float jumpForce = 3f;
@@ -20,43 +22,86 @@ public class PlayerMovement : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        _state = PlayerState.Idle;
         _rb = GetComponent<Rigidbody2D>();   
+        _animator = GetComponent<Animator>();
+        _animator.SetInteger("PlayerState", (int)_state);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if( Mathf.Abs(_rb.linearVelocity.y) <= 0){ _isGrounded = true;}else{ _isGrounded = false; }
+        //Start game on first input
+        /*if (GameController.instance.GetGameState() != GameState.Running &&
+            (IOTest.instance.jumpedPressed || IOTest.instance.duckPressed))
+        {
+            GameController.StartGame();
+        }*/
+        
+        if (GameController.instance.GetGameState() == GameState.GameOver)
+        {
+            _state = PlayerState.Hurt;
+            return;
+        }
+        
+        if (Mathf.Abs(_rb.linearVelocity.y) <= 0)
+        {
+            _isGrounded = true;
+            
+        }
+        else
+        {
+            _isGrounded = false;
+        }
         
         if (IOTest.instance.jumpedPressed)
         {
             Jump();
         }
+        else if(_isGrounded && _state != PlayerState.Duck)
+        {
+            if (GameController.instance.GetGameState() == GameState.Running)
+            {
+                _state = PlayerState.Walking;
+            }
+            else
+            {
+                _state = PlayerState.Idle;    
+            }
+        }
 
         if (IOTest.instance.duckPressed)
         {
-            Duck(true);
+            Duck();
         }
-        else
-        {
-           Duck(false); 
-        }
+        else if (_state == PlayerState.Duck)//if player is ducked
+           {
+               if (GameController.instance.GetGameState() == GameState.Running)
+               {
+                   _state = PlayerState.Walking;
+               }
+               else
+               {
+                   _state = PlayerState.Idle;    
+               }
+               
+           }
+        
+        //Optional: Check if state switched since last input
+       _animator.SetInteger("PlayerState", (int)_state); 
     }
 
     void Jump()
     {
-        if (!_isGrounded) return;
+        if (!_isGrounded || _state == PlayerState.Duck) return;
         _rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse); //Add force to y (up) direction 
+        if (_state != PlayerState.Jump) _state = PlayerState.Jump;
     }
 
-    void Duck(bool isDucked)
+    void Duck()
     {
-        _isDucked = isDucked;
-        float yScale = 1;
-        if(isDucked) yScale /= 2;
-        
-        this.transform.localScale = new Vector3(this.transform.localScale.x, yScale, this.transform.localScale.z);
-        
+        if (!_isGrounded || _state == PlayerState.Jump) return; //if not grounded and not ducked exit 
+        if(_state != PlayerState.Duck) _state = PlayerState.Duck;
     }
 
 
@@ -68,4 +113,14 @@ public class PlayerMovement : MonoBehaviour
         }
     }
     
+}
+
+
+public enum PlayerState{
+ Jump,
+ Duck,
+ Idle,
+ Walking,
+ Hurt,
+ None
 }
