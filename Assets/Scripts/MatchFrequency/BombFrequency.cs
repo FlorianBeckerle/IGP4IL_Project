@@ -79,7 +79,7 @@ public class BombFrequency : MonoBehaviour
             }
         
         
-            val = freq_slider.value;
+            val = amp_slider.value;
             targetVal = targetMaterial.GetFloat("_waves_amp");
             if (val > targetVal - maxAmpOffset || val < targetVal + maxAmpOffset)
             {

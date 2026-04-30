@@ -3699,10 +3699,10 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -5585.60498046875,
-            "y": 1285.09765625,
-            "width": 0.0,
-            "height": 0.0
+            "x": -5726.00048828125,
+            "y": 1222.0001220703125,
+            "width": 108.0,
+            "height": 34.0
         }
     },
     "m_Slots": [
@@ -4161,9 +4161,9 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -1932.49951171875,
-            "y": 1881.0,
-            "width": 167.4996337890625,
+            "x": -1891.0001220703125,
+            "y": 1881.0001220703125,
+            "width": 168.0001220703125,
             "height": 34.0
         }
     },
@@ -4492,10 +4492,10 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -5604.00048828125,
-            "y": 1071.0001220703125,
+            "x": -5744.00048828125,
+            "y": 1008.0000610351563,
             "width": 124.0,
-            "height": 173.0
+            "height": 173.00006103515626
         }
     },
     "m_Slots": [
@@ -4517,7 +4517,7 @@
     ],
     "synonyms": [],
     "m_Precision": 0,
-    "m_PreviewExpanded": true,
+    "m_PreviewExpanded": false,
     "m_DismissedVersion": 0,
     "m_PreviewMode": 0,
     "m_CustomColors": {
@@ -5538,8 +5538,8 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -5404.654296875,
-            "y": 1223.845703125,
+            "x": -5553.00048828125,
+            "y": 1094.0001220703125,
             "width": 208.0,
             "height": 302.0
         }
@@ -5561,7 +5561,7 @@
         "x"
     ],
     "m_Precision": 0,
-    "m_PreviewExpanded": true,
+    "m_PreviewExpanded": false,
     "m_DismissedVersion": 0,
     "m_PreviewMode": 0,
     "m_CustomColors": {
@@ -6240,9 +6240,9 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -1975.499267578125,
-            "y": 2260.5,
-            "width": 173.9993896484375,
+            "x": -1897.0001220703125,
+            "y": 2321.000244140625,
+            "width": 174.0001220703125,
             "height": 34.0
         }
     },
