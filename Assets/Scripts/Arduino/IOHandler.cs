@@ -12,16 +12,16 @@ public class IOHandler : MonoBehaviour
     public static IOHandler instance;
     
     //Events
-    public UnityEvent joystickUsed; 
-    public UnityEvent buttonUsed; 
-    public UnityEvent potentiometerUsed; 
-    public UnityEvent numberpadUsed; 
+    public static UnityEvent joystickUsed; 
+    public static UnityEvent buttonUsed; 
+    public static UnityEvent potentiometerUsed; 
+    public static UnityEvent numberpadUsed; 
     
     //Values of Inputs
-    public Vector2 joystickInput; //what direction is the joystick pushed
-    public bool buttonInput; //is pressed or not
-    public float potentiometerInput; //current value of potentiometer
-    public string numberpadInput; //last pressed button
+    public static Vector2 joystickInput; //what direction is the joystick pushed
+    public static bool buttonInput; //is pressed or not
+    public static float potentiometerInput; //current value of potentiometer
+    public static string numberpadInput; //last pressed button
 
     void Awake()
     {
@@ -109,7 +109,10 @@ public class IOHandler : MonoBehaviour
             serialPort.Close();
             serialPort.Dispose();
             
-            Application.Quit();
+            //Disabled for now since we don't have an Arduino connected yet
+            //TODO: Enable when arduino is connected
+            //Application.Quit();
+            
         }
     }
 

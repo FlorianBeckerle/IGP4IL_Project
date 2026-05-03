@@ -147,8 +147,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0.00000001545431, y: -0.000000015454308, z: -0.7071067, w: 0.7071068}
   m_LocalPosition: {x: -0.63074005, y: 1.0097733, z: 2}
-  m_LocalScale: {x: 0.79999995, y: 0.79999995, z: 0.79999995}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 80, y: 80, z: 80}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1630128664}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -208,7 +208,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 49192554}
-  m_Mesh: {fileID: -1117618999637217753, guid: 23118f08eae7e054eaa077aefbaae05c, type: 3}
+  m_Mesh: {fileID: -1117618999637217753, guid: 8dcd9a2f7d698644590c3f75815007b0, type: 3}
 --- !u!114 &281484813
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1135,8 +1135,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0.00000001545431, y: -0.000000015454308, z: -0.7071067, w: 0.7071068}
   m_LocalPosition: {x: -0.631, y: 1.0097733, z: 2.02}
-  m_LocalScale: {x: 0.79999995, y: 0.79999995, z: 0.79999995}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 80, y: 80, z: 80}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1630128664}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1196,7 +1196,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 960332668}
-  m_Mesh: {fileID: -1117618999637217753, guid: 23118f08eae7e054eaa077aefbaae05c, type: 3}
+  m_Mesh: {fileID: -1117618999637217753, guid: 8dcd9a2f7d698644590c3f75815007b0, type: 3}
 --- !u!114 &963752925
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1310,6 +1310,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1189394148}
   - component: {fileID: 1189394149}
+  - component: {fileID: 1189394151}
+  - component: {fileID: 1189394150}
   m_Layer: 0
   m_Name: BombPref
   m_TagString: Untagged
@@ -1350,6 +1352,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BombTimer
   startTime: 200
   timerText: {fileID: 2026143130}
+--- !u!114 &1189394150
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1189394147}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26c6ad01869fdba43a2d7a90fad2841b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IOHandler
+  timeoutDuration: 500
+--- !u!114 &1189394151
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1189394147}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16b344e66898d7947ade4e667e947bc3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BombHandler
 --- !u!1 &1237495351
 GameObject:
   m_ObjectHideFlags: 0
@@ -1918,6 +1945,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a7bb75b85c20f649abae24486d70dee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BombFrequency
+  isStarted: 0
   freq_slider: {fileID: 1600855551}
   amp_slider: {fileID: 1882263349}
   targetMaterial: {fileID: 2100000, guid: 279596a6b457ed747bc5e4a550fd7a00, type: 2}
@@ -1930,6 +1958,7 @@ MonoBehaviour:
   maxAmpOffset: 0
   freqOk: 0
   ampOk: 0
+  isAdjustingFreq: 1
 --- !u!1 &1677978165
 GameObject:
   m_ObjectHideFlags: 0

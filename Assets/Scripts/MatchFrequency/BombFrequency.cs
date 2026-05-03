@@ -1,8 +1,10 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
-public class BombFrequency : MonoBehaviour
+public class BombFrequency : BombMinigame
 {
     
     [Header("UI Elements")]
@@ -38,62 +40,124 @@ public class BombFrequency : MonoBehaviour
     private bool freqOk = false;
     [SerializeField]
     private bool ampOk = false;
-    
+    [SerializeField]
+    private bool isAdjustingFreq = true;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        //Set needed EventListeners
+        SetEventListeners();
+        
+        //TODO: later to be replaced by the IOHandler
         //Frequency Setup
         freq_slider.maxValue = maxFreq;
         freq_slider.minValue = minFreq;
         freq_slider.value = playerMaterial.GetFloat("_waves_freq");;
+        freq_slider.onValueChanged.AddListener(value => CheckIfSolved(true));
         
         //Amplitude Setup
         amp_slider.maxValue = maxAmp;
         amp_slider.minValue = minAmp;
         amp_slider.value = playerMaterial.GetFloat("_waves_freq");
+        freq_slider.onValueChanged.AddListener(value => CheckIfSolved(true));
         
         //Set Margins
         maxFreqOffset = (maxFreq - minFreq) / 20; // (20-3) / 10 = 0.85
         maxAmpOffset = (maxAmp - minAmp) / 20;
 
-        StartCoroutine(StartFreqMinigame());
+        StartFreqMinigame();
+    }
+    
+    public override void SetEventListeners()
+    {
+        IOHandler.potentiometerUsed.AddListener(CheckIfSolved);
+        IOHandler.buttonUsed.AddListener(SwitchBetweenFreqAndAmp);
+    }
+
+    public override void UnbindEventListeners()
+    {
+        IOHandler.potentiometerUsed.RemoveListener(CheckIfSolved);
+        IOHandler.buttonUsed.RemoveListener(SwitchBetweenFreqAndAmp);
+    }
+
+    public override void StartMinigame()
+    {
+        GenerateRandomTarget();
+        this.isStarted = true;
+    }
+
+    public override void EnterMinigame()
+    {
+        SetEventListeners();
+        //TODO: Focus Camera on Minigame
+    }
+
+    public override void ExitMinigame()
+    {
+        UnbindEventListeners();
+        //
+    }
+
+    //Needed this cause Events Suck 
+    private void CheckIfSolved()
+    {
+        CheckIfSolved(false);
+    }
+    private void CheckIfSolved(bool usesUI)
+    {
+        if (!usesUI) //Used to skip IO Handler if no Arduino exists yet
+        {
+            if (isAdjustingFreq)
+            {
+                AdjustSliderValue(IOHandler.potentiometerInput ,ref freq_slider);    
+            }
+            else
+            {
+                AdjustSliderValue(IOHandler.potentiometerInput, ref amp_slider);
+            }    
+        }
+        
+        
+        CheckValues(
+            freq_slider.value, 
+            targetMaterial.GetFloat("_waves_freq"), 
+            maxFreqOffset, 
+            ref freqOk);
+        
+        CheckValues(
+            amp_slider.value, 
+            targetMaterial.GetFloat("_waves_amp"), 
+            maxAmpOffset, 
+            ref ampOk);
+
+        if (freqOk && ampOk)
+        {
+            Debug.Log("Frequency Minigame Complete!!");    
+        }
+    }
+
+    private void AdjustSliderValue(float newVal, ref Slider slider)
+    {
+        slider.value = Remap(newVal, 0,100, minFreq, maxFreq);
+    }
+
+    //Switch between Freq and Amp
+    private void SwitchBetweenFreqAndAmp()
+    {
+        isAdjustingFreq = !isAdjustingFreq;
+    }
+
+    private void CheckValues(float val, float targetVal, float maxOffset ,ref bool isOk)
+    {
+        isOk = (val > targetVal - maxOffset && val < targetVal + maxOffset);
     }
 
     // Update is called once per frame
-    private IEnumerator StartFreqMinigame()
+    private void StartFreqMinigame()
     {
+        Debug.Log("Starting Frequency Minigame");
         GenerateRandomTarget();
-        while (!(freqOk && ampOk))
-        {
-            float val = freq_slider.value;
-            float targetVal = targetMaterial.GetFloat("_waves_freq");
-            if (val > targetVal - maxFreqOffset || val < targetVal + maxFreqOffset)
-            {
-                freqOk = true;
-            }
-            else
-            {
-                freqOk = false;
-            }
-        
-        
-            val = amp_slider.value;
-            targetVal = targetMaterial.GetFloat("_waves_amp");
-            if (val > targetVal - maxAmpOffset || val < targetVal + maxAmpOffset)
-            {
-                ampOk = true;
-            }
-            else
-            {
-                ampOk = false;
-            }
-
-            yield return new WaitForFixedUpdate();
-        }
-        
-        Debug.Log("Frequency Minigame Complete!!");    
-        
     }
 
 
@@ -112,4 +176,15 @@ public class BombFrequency : MonoBehaviour
     {
         playerMaterial.SetFloat("_waves_amp", amp_slider.value);
     }
+
+    
+    public float Remap(float value, float fromMin, float fromMax, float toMin, float toMax)
+    {
+        // InverseLerp returns a value between 0 and 1
+        float t = Mathf.InverseLerp(fromMin, fromMax, value);
+    
+        // Lerp takes that 0-1 and projects it onto the new range
+        return Mathf.Lerp(toMin, toMax, t);
+    }
+    
 }
