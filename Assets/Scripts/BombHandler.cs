@@ -22,7 +22,9 @@ public class BombHandler : MonoBehaviour
     
     [Header("Components")]
     [SerializeField] 
-    private GameObject cameraRig;
+    private GameObject cameraRig; 
+    [SerializeField]
+    private Camera playerCamera;
 
     //Collection of all Minigames 
     [SerializeField] 
@@ -32,6 +34,12 @@ public class BombHandler : MonoBehaviour
     [Header("Debug")]
     [SerializeField] 
     private bool debugUseKeyboard = false;
+
+    [SerializeField] 
+    private List<GameObject> bombDebugSides;
+
+    [SerializeField] private Material debugMaterial;
+    [SerializeField] private Material highlightDebugMaterial;
     
     
     [Header("Runtime Info")]
@@ -126,7 +134,8 @@ public class BombHandler : MonoBehaviour
         // 3. Apply both to the localRotation
         cameraRig.transform.localRotation = Quaternion.Euler(currentXRot, currentYRot, 0f);
 
-        Debug.Log($"[BombHandler] Rotation - X: {currentXRot}, Y: {currentYRot}");
+        //Debug.Log($"[BombHandler] Rotation - X: {currentXRot}, Y: {currentYRot}");
+        CheckDebugPlane();
     }
 
     private void EnterMinigame()
@@ -138,4 +147,27 @@ public class BombHandler : MonoBehaviour
     }
     
     
+    [SerializeField] private float rayDistance = 10f;
+    private void CheckDebugPlane()
+    {
+        // 1. Create a Bitmask for the "Debug" layer (Layer 7 for example)
+        // This tells the raycast to ONLY hit objects on this layer.
+        int layerMask = LayerMask.GetMask("Debug");
+
+        // 2. Define the Ray: Originating at the camera, pointing forward
+        Ray ray = new Ray(playerCamera.transform.position, playerCamera.transform.forward);
+        RaycastHit hit;
+
+        // 3. Perform the Raycast
+        if (Physics.Raycast(ray, out hit, rayDistance, layerMask))
+        {
+            foreach (GameObject plane in bombDebugSides)
+            {
+                plane.GetComponent<Renderer>().material = (hit.collider.gameObject == plane) ? highlightDebugMaterial : debugMaterial;
+            }
+        }
+    
+        // Optional: Visualize the ray in the Scene view
+        Debug.DrawRay(ray.origin, ray.direction * rayDistance, Color.red);
+    }
 }
