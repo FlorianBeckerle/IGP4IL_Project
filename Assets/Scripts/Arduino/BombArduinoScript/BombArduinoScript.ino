@@ -15,10 +15,39 @@ const int buttonPin = 3;
 int buttonState = 0;
 int lastButtonState = buttonState;
 
+//Rotary Encoder
+#include <ezButton.h>  // the library to use for SW pin
+
+#define CLK_PIN 4
+#define DT_PIN 5
+#define SW_PIN 6
+
+#define DIRECTION_CW 0   // clockwise direction
+#define DIRECTION_CCW 1  // counter-clockwise direction
+
+int counter = 0;
+int minCounter = 0;
+int maxCounter = 100;
+int direction = DIRECTION_CW;
+int CLK_state;
+int prev_CLK_state;
+
+ezButton button(SW_PIN);  // create ezButton object that attach to pin 4
+
+
 void setup() {
   //Pins
   pinMode(joyStickPin, INPUT);
   pinMode(buttonPin, INPUT);
+  // configure encoder pins as inputs
+  //Rotary dingens
+  pinMode(CLK_PIN, INPUT_PULLUP);
+  pinMode(DT_PIN, INPUT_PULLUP);
+  button.setDebounceTime(50);  // set debounce time to 50 milliseconds
+  // read the initial state of the rotary encoder's CLK pin
+  prev_CLK_state = digitalRead(CLK_PIN);
+
+
   
   //SerialPort
   Serial.begin(9600);
@@ -30,6 +59,8 @@ void loop() {
   processJoyStick();
   //button input
   processButton();
+  //rotary
+  processRotaryDecoder();
   
 }
 
@@ -53,12 +84,13 @@ void processJoyStick() {
     }
 
     // print result
-    Serial.print("Joystick;");
-    Serial.print(x);
-    Serial.print(":");
-    Serial.println(y);
-
-    delay(200);
+    if(magnitude > 0.1f){
+      Serial.print("Joystick;");
+      Serial.print(x);
+      Serial.print(":");
+      Serial.println(y);
+      delay(200);
+    }
 }
 
 void processButton(){
@@ -71,4 +103,32 @@ void processButton(){
       Serial.println("Button;released");
     }
   }
+}
+
+void processRotaryDecoder(){
+  button.loop();
+
+  CLK_state = digitalRead(CLK_PIN);
+
+  if (CLK_state != prev_CLK_state && CLK_state == HIGH) {
+
+    if (digitalRead(DT_PIN) == HIGH) {
+      counter--;
+      if(counter < minCounter){
+        counter = minCounter;
+      }
+      direction = DIRECTION_CCW;
+    } else {
+      counter++;
+      if(counter > maxCounter){
+        counter = maxCounter;
+      }
+      direction = DIRECTION_CW;
+    }
+
+    Serial.print("Potentiometer;");
+    Serial.println(counter);
+  }
+
+  prev_CLK_state = CLK_state; // 🔥 REQUIRED
 }

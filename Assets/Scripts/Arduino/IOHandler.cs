@@ -19,10 +19,17 @@ public class IOHandler : MonoBehaviour
     
     //Values of Inputs
     [SerializeField]
+    private Vector2 debugJoystickInput;
     public static Vector2 joystickInput; //what direction is the joystick pushed
     public static bool buttonInput; //is pressed or not
+    [SerializeField]
+    private bool debugButtonInput;
     public static float potentiometerInput; //current value of potentiometer
+    [SerializeField]
+    private float debugPotentiometerInput;
     public static string numberpadInput; //last pressed button
+    [SerializeField]
+    private string debugNumberpadInput;
 
     void Awake()
     {
@@ -99,6 +106,11 @@ public class IOHandler : MonoBehaviour
         }
 
         CheckIfTimedOut();
+        
+        debugJoystickInput = joystickInput;
+        debugButtonInput = buttonInput;
+        debugPotentiometerInput = potentiometerInput;
+        debugNumberpadInput = numberpadInput;
 
     }
 
@@ -168,7 +180,7 @@ public class IOHandler : MonoBehaviour
             return null;
         }
         string[] actions = action.Split(';'); // Example action = "Potentiometer;45"
-        Debug.Log("New Action:" + actions[0] + ": " + actions[1]);
+        //Debug.Log("New Action:" + actions[0] + ": " + actions[1]);
         return actions;
     }
 }
