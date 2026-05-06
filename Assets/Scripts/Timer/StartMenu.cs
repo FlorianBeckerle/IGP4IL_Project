@@ -47,6 +47,7 @@ public class StartMenu : BombMinigame
         {
             await Awaitable.NextFrameAsync();
         }
+        wantsToExit = false;
         return true;
     }
 

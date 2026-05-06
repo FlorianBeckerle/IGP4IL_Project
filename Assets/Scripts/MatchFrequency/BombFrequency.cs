@@ -95,6 +95,7 @@ public class BombFrequency : BombMinigame
             await Awaitable.NextFrameAsync();
         }
 
+        wantsToExit = false;
         return true;
     }
     
