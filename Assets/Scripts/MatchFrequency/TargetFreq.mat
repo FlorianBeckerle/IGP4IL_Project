@@ -142,13 +142,13 @@ Material:
     - _ZTest: 4
     - _ZWrite: 0
     - _ZWriteControl: 0
-    - _alpha: 0.023
+    - _alpha: 0.111
     - _background_tiling: 5
     - _background_tiling2: 10
     - _speed: 0.1
     - _tile_scale: 0.9
-    - _waves_amp: 0.16959064
-    - _waves_freq: 12.992978
+    - _waves_amp: 0.122861475
+    - _waves_freq: 12.450485
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
