@@ -18,6 +18,7 @@ public class IOHandler : MonoBehaviour
     public static UnityEvent numberpadUsed; 
     
     //Values of Inputs
+    [SerializeField]
     public static Vector2 joystickInput; //what direction is the joystick pushed
     public static bool buttonInput; //is pressed or not
     public static float potentiometerInput; //current value of potentiometer
@@ -152,7 +153,7 @@ public class IOHandler : MonoBehaviour
 
     private void SetJoyStickInput(string s)
     {
-        string[] input = s.Split(";"); //s having the shema X;Y -- X and Y being Number values between -1 and 1
+        string[] input = s.Split(":"); //s having the shema X;Y -- X and Y being Number values between -1 and 1
         
         joystickInput = new Vector2(float.Parse(input[0]), float.Parse(input[1]));
         

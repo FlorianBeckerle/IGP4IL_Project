@@ -8,7 +8,10 @@ public class BombTimer : MonoBehaviour
     [SerializeField] private int startTime = 300; //5 min default
     [SerializeField] private TMP_Text timerText;
 
-    [Header("Runtime Info")] private int currentTime = 0; 
+    [Header("Runtime Info")] private int currentTime = 0;
+
+    [SerializeField]
+    private bool isPaused = false;
 
     
 
@@ -16,7 +19,7 @@ public class BombTimer : MonoBehaviour
     void Start()
     {
         currentTime = startTime;
-        StartCoroutine(StartBombTimer());
+        
     }
 
     // Update is called once per frame
@@ -25,11 +28,18 @@ public class BombTimer : MonoBehaviour
         
     }
 
-
+    public void StartTimer()
+    {
+        StartCoroutine(StartBombTimer());
+    }
     private IEnumerator StartBombTimer()
     {
         while (currentTime > 0)
         {
+            while (isPaused)
+            {
+                yield return new WaitForEndOfFrame();
+            }
             yield return new WaitForSeconds(1f); //every second
             currentTime -= 1;
             timerText.text = calculateTime(currentTime);
@@ -52,5 +62,18 @@ public class BombTimer : MonoBehaviour
     public void AddSeconds(int seconds)
     {
         currentTime += + seconds;
+    }
+
+    public void PauseResumeTimer()
+    {
+        isPaused = !isPaused;
+        if (isPaused)
+        {
+            timerText.color = Color.red;
+        }
+        else
+        {
+            timerText.color = Color.black;
+        }
     }
 }

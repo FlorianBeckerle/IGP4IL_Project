@@ -7,6 +7,8 @@ public class BombHandler : MonoBehaviour
     [Header("Stats")] 
     [SerializeField] 
     private float rotationSpeed = 5f;
+    [SerializeField]
+    private float rotSnapSpeed = 5f;
 
     [SerializeField] 
     private float maxXRot = 20f;
@@ -26,7 +28,7 @@ public class BombHandler : MonoBehaviour
     [SerializeField]
     private Camera playerCamera;
 
-    //Collection of all Minigames 
+    //Collection of all Minigames inclusive StartAndTimer at index 0
     [SerializeField] 
     private List<BombMinigame> minigames;
     
@@ -45,16 +47,25 @@ public class BombHandler : MonoBehaviour
     [Header("Runtime Info")]
     [SerializeField]
     private bool canRotate = false;
+
+    [SerializeField]
+    private bool isInMinigame = false;
+
+    [SerializeField] 
+    private BombMinigame currentMinigame;
+    [SerializeField]
+    private Vector3 targetRotation = new Vector3(0f, 0f, 0f);
+    
     [SerializeField]
     private Vector2 keyboardInput = new Vector2(0f, 0f);
-    
-    
-    
+
+
+    private bool isFirstStart = true;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        EnableBombRotation();
+        EnterMinigame();
     }
 
     // Update is called once per frame
@@ -63,7 +74,40 @@ public class BombHandler : MonoBehaviour
         if (canRotate && debugUseKeyboard)
         {
             RotateBomb();
+
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                EnterMinigame();
+            }
         }
+
+        if (isInMinigame)
+        {
+            LerpToTargetRotation();
+        }
+    }
+
+    private void LerpToTargetRotation()
+    {
+        float xRot = Mathf.LerpAngle(
+            cameraRig.transform.eulerAngles.x,
+            targetRotation.x,
+            rotSnapSpeed * Time.deltaTime
+        );
+
+        float yRot = Mathf.LerpAngle(
+            cameraRig.transform.eulerAngles.y,
+            targetRotation.y,
+            rotSnapSpeed * Time.deltaTime
+        );
+
+        float zRot = Mathf.LerpAngle(
+            cameraRig.transform.eulerAngles.z,
+            targetRotation.z,
+            rotSnapSpeed * Time.deltaTime
+        );
+
+        cameraRig.transform.eulerAngles = new Vector3(xRot, yRot, zRot);
     }
 
     private Vector2 HandleKeyboardInput()
@@ -138,12 +182,29 @@ public class BombHandler : MonoBehaviour
         CheckDebugPlane();
     }
 
-    private void EnterMinigame()
+    private async void EnterMinigame()
     {
         DisableBombRotation();
+        isInMinigame = true;
         //Wait till minigame is finished or failed
-        //TODO: maybe make async? 
-        //EnableBombRotation();
+        bool isFinished = false;
+        while (!isFinished)
+        {
+            if (isFirstStart)
+            {
+                isFinished = await minigames[0].EnterMinigame();
+                isFirstStart = false;
+            }
+            else
+            {
+                //TODO: start minigame that is currently selected
+                isFinished = await currentMinigame.EnterMinigame();
+            }
+            
+        }
+
+        isInMinigame = false;
+        EnableBombRotation();
     }
     
     
@@ -165,9 +226,18 @@ public class BombHandler : MonoBehaviour
             {
                 plane.GetComponent<Renderer>().material = (hit.collider.gameObject == plane) ? highlightDebugMaterial : debugMaterial;
             }
+            
+            MinigameSide mgSide = hit.transform.gameObject.GetComponent<MinigameSide>();
+            if (mgSide != null)
+            {
+                currentMinigame = mgSide.minigame;
+                targetRotation = mgSide.targetRotation;
+            }
         }
     
         // Optional: Visualize the ray in the Scene view
         Debug.DrawRay(ray.origin, ray.direction * rayDistance, Color.red);
+        
+        
     }
 }

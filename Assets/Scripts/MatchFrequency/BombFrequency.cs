@@ -60,13 +60,13 @@ public class BombFrequency : BombMinigame
         amp_slider.maxValue = maxAmp;
         amp_slider.minValue = minAmp;
         amp_slider.value = playerMaterial.GetFloat("_waves_freq");
-        freq_slider.onValueChanged.AddListener(value => CheckIfSolved(true));
+        amp_slider.onValueChanged.AddListener(value => CheckIfSolved(true));
         
         //Set Margins
         maxFreqOffset = (maxFreq - minFreq) / 20; // (20-3) / 10 = 0.85
         maxAmpOffset = (maxAmp - minAmp) / 20;
 
-        StartFreqMinigame();
+        
     }
     
     public override void SetEventListeners()
@@ -83,20 +83,26 @@ public class BombFrequency : BombMinigame
 
     public override void StartMinigame()
     {
-        GenerateRandomTarget();
+        StartFreqMinigame();
         this.isStarted = true;
     }
 
-    public override void EnterMinigame()
+    public override async Awaitable<bool> EnterMinigame()
     {
         SetEventListeners();
         //TODO: Focus Camera on Minigame
-    }
+        while (!wantsToExit)
+        {
+            await Awaitable.NextFrameAsync();
+        }
 
+        return true;
+    }
+    
     public override void ExitMinigame()
     {
         UnbindEventListeners();
-        //
+        wantsToExit = true;
     }
 
     //Needed this cause Events Suck 
@@ -133,7 +139,8 @@ public class BombFrequency : BombMinigame
 
         if (freqOk && ampOk)
         {
-            Debug.Log("Frequency Minigame Complete!!");    
+            Debug.Log("Frequency Minigame Complete!!");   
+            ExitMinigame();
         }
     }
 
