@@ -39,7 +39,9 @@ public class StartMenu : BombMinigame
 
     public override async Awaitable<bool> EnterMinigame()
     {
+        SetEventListeners();
         SetButton(ref startButton);
+        SwitchButtons(true);
 
         while (!wantsToExit)
         {
@@ -47,10 +49,17 @@ public class StartMenu : BombMinigame
         }
         return true;
     }
-    
+
+    private void SwitchButtons(bool b)
+    {
+        pauseButton.interactable = b;
+        exitButton.interactable = b;
+    }
+
     public override void ExitMinigame()
     {
         UnbindEventListeners();
+        SwitchButtons(false);
         EventSystem.current.SetSelectedGameObject(null);
         wantsToExit = true;
     }
@@ -60,7 +69,7 @@ public class StartMenu : BombMinigame
     private void NavigateUI()
     {
         Vector2 input = IOHandler.joystickInput;
-
+        Debug.Log("Navigate UI");
         // prevent spamming
         if (Time.time - lastInputTime < inputCooldown) return;
 
@@ -72,31 +81,31 @@ public class StartMenu : BombMinigame
 
         if (currentButton == startButton)
         {
-            if (input.x > 0.5f) // right → Pause
+            if (input.y > 0.25f) // right → Pause
             {
                 SetButton(ref pauseButton);
             }
-            else if (input.y < -0.5f) // down → Exit
+            else if (input.x < -0.25f) // down → Exit
             {
                 SetButton(ref exitButton);
             }
         }
         else if (currentButton == pauseButton)
         {
-            if (input.x < -0.5f) // left → Start
+            if (input.y < -0.25f) // left → Start
             {
                 SetButton(ref startButton);
             }
-            else if (input.y < -0.5f) // down → Exit
+            else if (input.x < -0.25f) // down → Exit
             {
                 SetButton(ref exitButton);
             }
         }
         else if (currentButton == exitButton)
         {
-            if (input.y > 0.5f) // up → decide left/right
+            if (input.x > 0.25f) // up → decide left/right
             {
-                if (input.x < 0)
+                if (input.y < 0)
                     SetButton(ref startButton);
                 else
                     SetButton(ref pauseButton);

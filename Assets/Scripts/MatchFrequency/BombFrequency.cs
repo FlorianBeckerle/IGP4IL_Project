@@ -90,7 +90,6 @@ public class BombFrequency : BombMinigame
     public override async Awaitable<bool> EnterMinigame()
     {
         SetEventListeners();
-        //TODO: Focus Camera on Minigame
         while (!wantsToExit)
         {
             await Awaitable.NextFrameAsync();
@@ -116,11 +115,11 @@ public class BombFrequency : BombMinigame
         {
             if (isAdjustingFreq)
             {
-                AdjustSliderValue(IOHandler.potentiometerInput ,ref freq_slider);    
+                AdjustSliderValue(IOHandler.potentiometerInput ,ref freq_slider, minFreq, maxFreq);    
             }
             else
             {
-                AdjustSliderValue(IOHandler.potentiometerInput, ref amp_slider);
+                AdjustSliderValue(IOHandler.potentiometerInput, ref amp_slider, minAmp, maxAmp);
             }    
         }
         
@@ -144,14 +143,15 @@ public class BombFrequency : BombMinigame
         }
     }
 
-    private void AdjustSliderValue(float newVal, ref Slider slider)
+    private void AdjustSliderValue(float newVal, ref Slider slider, float toMin, float toMax)
     {
-        slider.value = Remap(newVal, 0,100, minFreq, maxFreq);
+        slider.value = Remap(newVal, 0,100, toMin, toMax);
     }
 
     //Switch between Freq and Amp
     private void SwitchBetweenFreqAndAmp()
     {
+        Debug.Log("Switching between Freq and Amp");
         isAdjustingFreq = !isAdjustingFreq;
     }
 
