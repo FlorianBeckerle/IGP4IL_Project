@@ -132,8 +132,8 @@ Material:
     - _background_tiling2: 20
     - _speed: 0.1
     - _tile_scale: 0.9
-    - _waves_amp: 0.01
-    - _waves_freq: 3
+    - _waves_amp: 0.16730969
+    - _waves_freq: 12.164943
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}

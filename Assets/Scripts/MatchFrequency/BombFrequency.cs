@@ -66,7 +66,8 @@ public class BombFrequency : BombMinigame
         maxFreqOffset = (maxFreq - minFreq) / 20; // (20-3) / 10 = 0.85
         maxAmpOffset = (maxAmp - minAmp) / 20;
 
-        
+        StartMinigame();
+        SwitchUISliders(false);
     }
     
     public override void SetEventListeners()
@@ -90,6 +91,7 @@ public class BombFrequency : BombMinigame
     public override async Awaitable<bool> EnterMinigame()
     {
         SetEventListeners();
+        SwitchUISliders(true);
         while (!wantsToExit)
         {
             await Awaitable.NextFrameAsync();
@@ -102,6 +104,7 @@ public class BombFrequency : BombMinigame
     public override void ExitMinigame()
     {
         UnbindEventListeners();
+        SwitchUISliders(false);
         wantsToExit = true;
     }
 
@@ -154,6 +157,12 @@ public class BombFrequency : BombMinigame
     {
         Debug.Log("Switching between Freq and Amp");
         isAdjustingFreq = !isAdjustingFreq;
+    }
+
+    private void SwitchUISliders(bool b)
+    {
+        freq_slider.interactable = b;
+        amp_slider.interactable = b;
     }
 
     private void CheckValues(float val, float targetVal, float maxOffset ,ref bool isOk)

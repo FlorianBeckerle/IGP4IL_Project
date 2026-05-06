@@ -47,7 +47,7 @@ public class IOHandler : MonoBehaviour
     void Start()
     {
         SetupEvents();
-        serialPort = new SerialPort("COM4", 9600);
+        serialPort = new SerialPort("COM5", 9600);
         serialPort.Open();
         serialPort.ReadTimeout = (timeoutDuration + 100); //slightly bigger to not get into timeouts from serialport
         serialPort.WriteTimeout = (timeoutDuration + 100);

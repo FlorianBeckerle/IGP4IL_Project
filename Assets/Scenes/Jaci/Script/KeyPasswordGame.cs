@@ -24,7 +24,6 @@ public class KeyPasswordGame : BombMinigame
     void Start()
     {
         StartMinigame();
-        
     }
 
     void GenerateRandomCode()
@@ -36,15 +35,16 @@ public class KeyPasswordGame : BombMinigame
             correctCode += randomDigit.ToString();
 
         }
-
-        codeText.text = correctCode;
+        
         Debug.Log("Code ist: " + correctCode); 
-
-        StartCoroutine(FadeText());
     }
 
     IEnumerator FadeText()
     {
+        codeText.text = correctCode;
+
+        yield return new WaitForSeconds(5f);
+        
         Color textColor = codeText.color;
 
         while (textColor.a > 0)
@@ -77,7 +77,7 @@ public class KeyPasswordGame : BombMinigame
             if (playerInput == correctCode)
             {
                 Debug.Log("Richtig!");
-
+                ExitMinigame();
             }
             else
             {
@@ -109,6 +109,7 @@ public class KeyPasswordGame : BombMinigame
 
     public override async Awaitable<bool> EnterMinigame()
     {
+        StartCoroutine(FadeText());
         SetEventListeners();
         while (!wantsToExit)
         {
