@@ -1,11 +1,9 @@
 using UnityEngine;
 using System.Collections;
 using TMPro;
-using UnityEngine;
-using System.CodeDom.Compiler;
-using System.IO.IsolatedStorage;
 using Unity.VisualScripting;
-using System.ComponentModel.Design;
+using System.Threading.Tasks;
+using UnityEngine.InputSystem;
 
 public class KeyPasswordGame : BombMinigame
 {
@@ -13,9 +11,11 @@ public class KeyPasswordGame : BombMinigame
     
     [SerializeField] private int codeLength = 4; //ist die max. Codelänge
     [SerializeField] private TMP_Text codeText; // Ausgabetextfeld
-
+    [SerializeField] float fadeSpeed = 5f;
     private string correctCode;  // String das den correcten code angibt
     private string playerInput = ""; // string das der Player dann eingeben soll
+
+
 
 
   
@@ -23,7 +23,7 @@ public class KeyPasswordGame : BombMinigame
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        GenerateRandomCode();
+        StartMinigame();
         
     }
 
@@ -39,11 +39,21 @@ public class KeyPasswordGame : BombMinigame
 
         codeText.text = correctCode;
         Debug.Log("Code ist: " + correctCode); 
+
+        StartCoroutine(FadeText());
     }
 
-    void FadingNumber()
+    IEnumerator FadeText()
     {
-        
+        Color textColor = codeText.color;
+
+        while (textColor.a > 0)
+        {
+            textColor.a -= fadeSpeed*Time.deltaTime;
+            codeText.color = textColor;
+
+            yield return null;
+        }
     }
 
     public void PressNumber(string number)
@@ -79,26 +89,42 @@ public class KeyPasswordGame : BombMinigame
 
     public override void SetEventListeners()
     {
-        throw new System.NotImplementedException();
+        IOHandler.numberpadUsed.AddListener(KeyPressed);
+    }
+
+    private void KeyPressed()
+    {
+        PressNumber(IOHandler.numberpadInput);
     }
 
     public override void UnbindEventListeners()
     {
-        throw new System.NotImplementedException();
+        IOHandler.numberpadUsed.RemoveListener(KeyPressed);
     }
 
     public override void StartMinigame()
     {
-        throw new System.NotImplementedException();
+        GenerateRandomCode();
     }
 
-    public override Awaitable<bool> EnterMinigame()
+    public override async Awaitable<bool> EnterMinigame()
     {
-        throw new System.NotImplementedException();
+        SetEventListeners();
+        while (!wantsToExit)
+        {
+            await Awaitable.NextFrameAsync();
+
+        }
+        wantsToExit = false;
+        return true;
     }
 
     public override void ExitMinigame()
     {
-        throw new System.NotImplementedException();
+        UnbindEventListeners();
+        wantsToExit = true;
+
+        playerInput = "";
+
     }
 }
