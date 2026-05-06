@@ -152,6 +152,7 @@ public class IOHandler : MonoBehaviour
     private void SetNumberpadInput(string s)
     {
         numberpadInput = s;
+        Debug.Log("Numberpad input detected: " + s, this);
         
         numberpadUsed?.Invoke();
     }
