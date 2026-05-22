@@ -47,7 +47,7 @@ public class BombFrequency : BombMinigame
     void Start()
     {
         //Set needed EventListeners
-        SetEventListeners();
+        //SetEventListeners();
         
         //TODO: later to be replaced by the IOHandler
         //Frequency Setup
@@ -66,7 +66,7 @@ public class BombFrequency : BombMinigame
         maxFreqOffset = (maxFreq - minFreq) / 20; // (20-3) / 10 = 0.85
         maxAmpOffset = (maxAmp - minAmp) / 20;
 
-        StartMinigame();
+        //StartMinigame();
         SwitchUISliders(false);
     }
     
