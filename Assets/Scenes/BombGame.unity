@@ -2531,16 +2531,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1f1e6ae123dff14f8de703548a8c6f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PipeBouncingGame
-  movingBar: {fileID: 659741171}
+  isStarted: 1
+  wantsToExit: 0
+  movingBar: {fileID: 659741169}
+  movingBalls: []
   moveSpeed: 0.5
   minY: 0.6902707
   maxY: 1.72
   cooldownTime: 2
---- !u!4 &659741171 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 5385009342958481891, guid: 3a3f024045368fb40978dc27fcaf1259, type: 3}
-  m_PrefabInstance: {fileID: 659741167}
-  m_PrefabAsset: {fileID: 0}
 --- !u!54 &659741172
 Rigidbody:
   m_ObjectHideFlags: 0
