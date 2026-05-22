@@ -2271,6 +2271,73 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 521670565}
   m_CullTransparentMesh: 1
+--- !u!1 &531302239 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -5252520768391667587, guid: 3a3f024045368fb40978dc27fcaf1259, type: 3}
+  m_PrefabInstance: {fileID: 659741167}
+  m_PrefabAsset: {fileID: 0}
+--- !u!135 &531302243
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 531302239}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.009999998
+  m_Center: {x: 0.00000007357448, y: 0.0000000032596283, z: 0.009813573}
+--- !u!54 &531302244
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 531302239}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &531302245
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 531302239}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c7af618672e6ef4a88134b585039495, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BouncingBall
+  isMoving: 0
+  isInTarget: 0
 --- !u!1 &560995611
 GameObject:
   m_ObjectHideFlags: 0
@@ -2494,20 +2561,35 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 3a3f024045368fb40978dc27fcaf1259, type: 3}
-      insertIndex: 3
-      addedObject: {fileID: 1087905398}
+    m_AddedGameObjects: []
     m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6273122837772612139, guid: 3a3f024045368fb40978dc27fcaf1259, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 659741170}
     - targetCorrespondingSourceObject: {fileID: 6273122837772612139, guid: 3a3f024045368fb40978dc27fcaf1259, type: 3}
       insertIndex: -1
       addedObject: {fileID: 659741173}
     - targetCorrespondingSourceObject: {fileID: 6273122837772612139, guid: 3a3f024045368fb40978dc27fcaf1259, type: 3}
       insertIndex: -1
       addedObject: {fileID: 659741172}
+    - targetCorrespondingSourceObject: {fileID: 6273122837772612139, guid: 3a3f024045368fb40978dc27fcaf1259, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 659741176}
+    - targetCorrespondingSourceObject: {fileID: -5252520768391667587, guid: 3a3f024045368fb40978dc27fcaf1259, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 531302245}
+    - targetCorrespondingSourceObject: {fileID: -5252520768391667587, guid: 3a3f024045368fb40978dc27fcaf1259, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 531302243}
+    - targetCorrespondingSourceObject: {fileID: -5252520768391667587, guid: 3a3f024045368fb40978dc27fcaf1259, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 531302244}
+    - targetCorrespondingSourceObject: {fileID: 6452071973621618021, guid: 3a3f024045368fb40978dc27fcaf1259, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2045558019}
+    - targetCorrespondingSourceObject: {fileID: 6452071973621618021, guid: 3a3f024045368fb40978dc27fcaf1259, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2045558018}
+    - targetCorrespondingSourceObject: {fileID: 6452071973621618021, guid: 3a3f024045368fb40978dc27fcaf1259, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2045558017}
   m_SourcePrefab: {fileID: 100100000, guid: 3a3f024045368fb40978dc27fcaf1259, type: 3}
 --- !u!4 &659741168 stripped
 Transform:
@@ -2519,26 +2601,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 6273122837772612139, guid: 3a3f024045368fb40978dc27fcaf1259, type: 3}
   m_PrefabInstance: {fileID: 659741167}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &659741170
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 659741169}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e1f1e6ae123dff14f8de703548a8c6f6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PipeBouncingGame
-  isStarted: 1
-  wantsToExit: 0
-  movingBar: {fileID: 659741169}
-  movingBalls: []
-  moveSpeed: 0.5
-  minY: 0.6902707
-  maxY: 1.72
-  cooldownTime: 2
 --- !u!54 &659741172
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2587,6 +2649,20 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.009999998
   m_Center: {x: 0.00000007357448, y: 0.0000000032596283, z: 0.009813573}
+--- !u!114 &659741176
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 659741169}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c7af618672e6ef4a88134b585039495, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BouncingBall
+  isMoving: 0
+  isInTarget: 0
 --- !u!1 &756841507
 GameObject:
   m_ObjectHideFlags: 0
@@ -3055,7 +3131,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 659741170}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: PipeBouncingGame, Assembly-CSharp
         m_MethodName: Stop
         m_Mode: 1
@@ -3431,13 +3507,13 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1087905397}
-  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
+  m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0.28}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 856391365}
-  m_Father: {fileID: 659741168}
+  m_Father: {fileID: 1883816549}
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -7098,6 +7174,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1883816549}
+  - component: {fileID: 1883816550}
   m_Layer: 0
   m_Name: BombPipeBounce
   m_TagString: Untagged
@@ -7118,9 +7195,33 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1087905398}
   - {fileID: 769983577}
   m_Father: {fileID: 1189394148}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1883816550
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1883816548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1f1e6ae123dff14f8de703548a8c6f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PipeBouncingGame
+  isStarted: 0
+  wantsToExit: 0
+  movingBar: {fileID: 0}
+  movingBalls:
+  - {fileID: 659741169}
+  - {fileID: 531302239}
+  - {fileID: 2045558013}
+  moveSpeed: 1.5
+  minY: 0.6902707
+  maxY: 1.72
+  cooldownTime: 5
 --- !u!1 &1886699730
 GameObject:
   m_ObjectHideFlags: 0
@@ -7825,6 +7926,73 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.InputActionReference
   m_Asset: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_ActionId: 0489e84a-4833-4c40-bfae-cea84b696689
+--- !u!1 &2045558013 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6452071973621618021, guid: 3a3f024045368fb40978dc27fcaf1259, type: 3}
+  m_PrefabInstance: {fileID: 659741167}
+  m_PrefabAsset: {fileID: 0}
+--- !u!135 &2045558017
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2045558013}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.009999998
+  m_Center: {x: 0.00000007357448, y: 0.0000000032596283, z: 0.009813573}
+--- !u!54 &2045558018
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2045558013}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &2045558019
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2045558013}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c7af618672e6ef4a88134b585039495, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BouncingBall
+  isMoving: 0
+  isInTarget: 0
 --- !u!1 &2072654982
 GameObject:
   m_ObjectHideFlags: 0

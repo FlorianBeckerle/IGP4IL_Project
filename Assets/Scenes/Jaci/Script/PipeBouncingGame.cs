@@ -22,11 +22,9 @@ public class PipeBouncingGame : BombMinigame
     // Frage: In welche Richtung bewegt es sich gerade?
     private int direction = 1;
 
-    private bool isMoving = true; //Kontrolle ob sich das Ding bewegt
-
-    private bool isInTarget = false; //Kontrolle ob es in der Zielfläche drin ist.
-
     private bool isFinish = false; // bedeutet das es noch nicht startet.
+
+    private int currentBall = 0; // Index für Ball der bei 0 startet
 
 
     void Start()
@@ -40,7 +38,14 @@ public class PipeBouncingGame : BombMinigame
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public void Stop()
     {
-        if (!isMoving) return; 
+        ref bool isMoving = ref movingBar.GetComponent<BouncingBall>().isMoving; 
+        bool isInTarget = movingBar.GetComponent<BouncingBall>().isInTarget;
+
+        if (!isMoving) return;
+
+        
+
+
 
         isMoving = false; 
 
@@ -51,6 +56,11 @@ public class PipeBouncingGame : BombMinigame
         if (isInTarget)
         {
             Debug.Log("Treffer!");
+
+
+            currentBall++;
+            movingBar = movingBalls[currentBall];
+
         }
         else
         {
@@ -63,7 +73,7 @@ public class PipeBouncingGame : BombMinigame
     {
         yield return new WaitForSeconds(cooldownTime);
 
-        isMoving = true;
+        movingBar.GetComponent<BouncingBall>().isMoving = true;
     }
 
 
@@ -76,8 +86,14 @@ public class PipeBouncingGame : BombMinigame
         //Prüfen: Ist der Balken unten angekommen?
         //Wenn ja: Richtung umdrehen
         //Neue Position wieder speichern
+
         foreach(var ball in movingBalls)
         {
+
+            if (!ball.GetComponent<BouncingBall>().isMoving)
+            {
+                continue; 
+            }
                 Vector3 position = ball.transform.position;
 
                 position.y += direction * moveSpeed * Time.deltaTime; //Time.deltaTime ist die Framrate damit es flüssig ausschaut. 
@@ -92,28 +108,11 @@ public class PipeBouncingGame : BombMinigame
                 }
 
             ball.transform.position = position;
+
         }
 
   
 
-    }
-
-    private void OnTriggerEnter(Collider other) // Kontrolliert ob Ball im Cylinder ist
-    {
-        if (other.CompareTag("Target"))
-        {
-            isInTarget = true;    
-
-        }
-    
-    }
-
-    private void OnTriggerExit(Collider other) // Kontrolliert ob Ball nicht im Cylinder ist
-    {
-        if (other.CompareTag("Target"))
-        {
-            isInTarget = false;    
-        }
     }
 
     private IEnumerator LoopBallBounce()
@@ -140,8 +139,14 @@ public class PipeBouncingGame : BombMinigame
     public override void StartMinigame()
     {
         isStarted = true; 
-        movingBar = movingBalls[0];
-        StartCoroutine(LoopBallBounce()); 
+        currentBall = 0; 
+        movingBar = movingBalls[currentBall];
+        StartCoroutine(LoopBallBounce());
+
+        foreach (var ball in movingBalls)
+        {
+            ball.GetComponent<BouncingBall>().isMoving = true;
+        }
     }
 
     public override async Awaitable<bool> EnterMinigame()
