@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using System;
 using Unity.VisualScripting;
 using System.Threading.Tasks;
+using NUnit.Framework;
 
 public class PipeBouncingGame : BombMinigame
 {
@@ -17,7 +18,8 @@ public class PipeBouncingGame : BombMinigame
     [SerializeField] private float minY = 0.6902707f;  
     [SerializeField] private float maxY = 1.72f;
     
-    [SerializeField] private float cooldownTime = 5f; // Einstellung für die Strafwartezeit vom Bouncingspiel
+    [SerializeField] private float cooldownTime = 2f; // Einstellung für die Strafwartezeit vom Bouncingspiel
+
 
     // Frage: In welche Richtung bewegt es sich gerade?
     private int direction = 1;
@@ -43,9 +45,6 @@ public class PipeBouncingGame : BombMinigame
 
         if (!isMoving) return;
 
-        
-
-
 
         isMoving = false; 
 
@@ -53,13 +52,30 @@ public class PipeBouncingGame : BombMinigame
         //→ Update ruft MoveBar NICHT mehr auf
         //→ Balken bleibt stehen
 
+
+
         if (isInTarget)
         {
             Debug.Log("Treffer!");
 
 
             currentBall++;
-            movingBar = movingBalls[currentBall];
+            
+            if (currentBall < 3)
+            {
+                movingBar = movingBalls[currentBall];
+            }        
+            else
+            {
+                isStarted = false;
+                BombTimer.instance.AddSeconds(10);
+                StartCoroutine(DelayTillNextStart());
+            
+
+                ExitMinigame();
+            }
+            
+
 
         }
         else
@@ -67,6 +83,12 @@ public class PipeBouncingGame : BombMinigame
             Debug.Log("NONE");
             StartCoroutine(CooldownRoutine());
         }
+
+        
+
+
+
+        
     }
 
     private IEnumerator CooldownRoutine()
@@ -164,4 +186,5 @@ public class PipeBouncingGame : BombMinigame
     {
         UnbindEventListeners();
     }
+
 }
