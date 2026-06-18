@@ -7,6 +7,8 @@ public abstract class BombMinigame : MonoBehaviour
 
     public bool wantsToExit = false;
 
+    public MinigameLight light;
+
     
     //(Un)Bind all needed physical IODevices with those two functions 
     //Use IOHadler.xyzUsed.AddListener(FUNCTION_NAME)
