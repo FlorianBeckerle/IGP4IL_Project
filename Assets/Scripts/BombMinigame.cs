@@ -37,7 +37,7 @@ public abstract class BombMinigame : MonoBehaviour
     
     protected IEnumerator DelayTillNextStart()
     {
-        yield return new WaitForSeconds(Random.Range(2f, 10f));
+        yield return new WaitForSeconds(Random.Range(5f, 40f));
         StartMinigame();
     }
 }

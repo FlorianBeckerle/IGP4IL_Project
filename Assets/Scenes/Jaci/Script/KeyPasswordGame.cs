@@ -78,6 +78,7 @@ public class KeyPasswordGame : BombMinigame
             {
                 Debug.Log("Richtig!");
                 BombTimer.instance.AddSeconds(10);
+                light.TurnOff();
                 ExitMinigame();
             }
             else
@@ -105,6 +106,7 @@ public class KeyPasswordGame : BombMinigame
 
     public override void StartMinigame()
     {
+        light.TurnOn();
         GenerateRandomCode();
     }
 

@@ -15,8 +15,8 @@ public class PipeBouncingGame : BombMinigame
     //Frage: Wie schnell bewegt er sich?
     [SerializeField] private float moveSpeed = 1.5f;
     //Frage: Wie weit darf er sich bewegen?
-    [SerializeField] private float minY = 0.6902707f;  
-    [SerializeField] private float maxY = 1.72f;
+    [SerializeField] private float minY; 
+    [SerializeField] private float maxY; 
     
     [SerializeField] private float cooldownTime = 2f; // Einstellung für die Strafwartezeit vom Bouncingspiel
 
@@ -70,7 +70,7 @@ public class PipeBouncingGame : BombMinigame
                 isStarted = false;
                 BombTimer.instance.AddSeconds(10);
                 StartCoroutine(DelayTillNextStart());
-            
+                light.TurnOff();
 
                 ExitMinigame();
             }
@@ -161,6 +161,7 @@ public class PipeBouncingGame : BombMinigame
     public override void StartMinigame()
     {
         isStarted = true; 
+        light.TurnOn();
         currentBall = 0; 
         movingBar = movingBalls[currentBall];
         StartCoroutine(LoopBallBounce());
@@ -185,6 +186,8 @@ public class PipeBouncingGame : BombMinigame
     public override void ExitMinigame()
     {
         UnbindEventListeners();
+        isFinish = true;
+        wantsToExit = true; 
     }
 
 }

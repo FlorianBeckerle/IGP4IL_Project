@@ -146,7 +146,7 @@ public class BombFrequency : BombMinigame
             Debug.Log("Frequency Minigame Complete!!");   
             ExitMinigame();
             BombTimer.instance.AddSeconds(10);
-            
+            light.TurnOff();
             this.isStarted = false;
             
             StartCoroutine(DelayTillNextStart());
@@ -181,6 +181,7 @@ public class BombFrequency : BombMinigame
     private void StartFreqMinigame()
     {
         Debug.Log("Starting Frequency Minigame");
+        light.TurnOn();
         GenerateRandomTarget();
     }
 
