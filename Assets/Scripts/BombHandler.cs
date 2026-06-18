@@ -32,7 +32,6 @@ public class BombHandler : MonoBehaviour
     [SerializeField] 
     private List<BombMinigame> minigames;
     
-    
     [Header("Debug")]
     [SerializeField] 
     private bool debugUseKeyboard = false;
@@ -83,6 +82,14 @@ public class BombHandler : MonoBehaviour
 
         if (isInMinigame)
         {
+            LerpToTargetRotation();
+        }
+
+
+        if (BombTimer.instance.GetTime() <= 0)
+        {
+            DisableBombRotation();
+            targetRotation = new Vector3(0f, 0f, 0f);
             LerpToTargetRotation();
         }
     }

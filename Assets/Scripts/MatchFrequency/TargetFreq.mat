@@ -145,10 +145,10 @@ Material:
     - _alpha: 0.111
     - _background_tiling: 5
     - _background_tiling2: 10
-    - _speed: 0.1
+    - _speed: 0
     - _tile_scale: 0.9
-    - _waves_amp: 0.09496521
-    - _waves_freq: 17.096443
+    - _waves_amp: 0.22162098
+    - _waves_freq: 13.73989
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}

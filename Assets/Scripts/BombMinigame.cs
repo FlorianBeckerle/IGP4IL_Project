@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public abstract class BombMinigame : MonoBehaviour
@@ -30,5 +31,11 @@ public abstract class BombMinigame : MonoBehaviour
         {
             ExitMinigame();
         }
+    }
+    
+    protected IEnumerator DelayTillNextStart()
+    {
+        yield return new WaitForSeconds(Random.Range(2f, 10f));
+        StartMinigame();
     }
 }

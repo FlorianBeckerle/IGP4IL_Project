@@ -84,6 +84,7 @@ public class BombFrequency : BombMinigame
 
     public override void StartMinigame()
     {
+        Debug.Log("Starting Minigame: " + this.name);
         StartFreqMinigame();
         this.isStarted = true;
     }
@@ -144,6 +145,12 @@ public class BombFrequency : BombMinigame
         {
             Debug.Log("Frequency Minigame Complete!!");   
             ExitMinigame();
+            BombTimer.instance.AddSeconds(10);
+            
+            this.isStarted = false;
+            
+            StartCoroutine(DelayTillNextStart());
+            
         }
     }
 
@@ -180,8 +187,21 @@ public class BombFrequency : BombMinigame
 
     private void GenerateRandomTarget()
     {
-        targetMaterial.SetFloat("_waves_freq", Random.Range(minFreq, maxFreq));
-        targetMaterial.SetFloat("_waves_amp", Random.Range(minAmp, maxAmp));
+        
+        float newFreq = Random.Range(minFreq, maxFreq);
+        if (newFreq >= freq_slider.value - 0.5f && newFreq <= freq_slider.value + 0.5f)
+        {
+            newFreq = Random.Range(minFreq, maxFreq);
+        }
+        float newAmp = Random.Range(minAmp, maxAmp);
+        
+        if (newAmp >= freq_slider.value - 0.5f && newAmp <= freq_slider.value + 0.5f)
+        {
+            newAmp = Random.Range(minFreq, maxFreq);
+        }
+        
+        targetMaterial.SetFloat("_waves_freq", newFreq);
+        targetMaterial.SetFloat("_waves_amp", newAmp);
     }
 
     public void UpdateFreq()
@@ -194,14 +214,16 @@ public class BombFrequency : BombMinigame
         playerMaterial.SetFloat("_waves_amp", amp_slider.value);
     }
 
-    
+
     public float Remap(float value, float fromMin, float fromMax, float toMin, float toMax)
     {
         // InverseLerp returns a value between 0 and 1
         float t = Mathf.InverseLerp(fromMin, fromMax, value);
-    
+
         // Lerp takes that 0-1 and projects it onto the new range
         return Mathf.Lerp(toMin, toMax, t);
     }
-    
+
 }
+
+

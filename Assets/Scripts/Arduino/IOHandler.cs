@@ -1,5 +1,6 @@
 using System;
 using System.IO.Ports;
+using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -7,7 +8,7 @@ public class IOHandler : MonoBehaviour
 {
     private SerialPort serialPort;
     private float lastCheckup;
-    public int timeoutDuration = 500;
+    public int timeoutDuration = 1000;
     
     public static IOHandler instance;
     
@@ -47,7 +48,7 @@ public class IOHandler : MonoBehaviour
     void Start()
     {
         SetupEvents();
-        serialPort = new SerialPort("COM4", 9600);
+        serialPort = new SerialPort("COM5", 9600);
         serialPort.Open();
         serialPort.ReadTimeout = (timeoutDuration + 100); //slightly bigger to not get into timeouts from serialport
         serialPort.WriteTimeout = (timeoutDuration + 100);
@@ -177,6 +178,8 @@ public class IOHandler : MonoBehaviour
     private string[] GetInputUpdate()
     {
         string action = serialPort.ReadLine();
+        
+        Debug.Log("Debug Output: " + action, this);
         if (action.Length < 3) //meaning something is wrong with the read or it had a timeout
         {
             return null;

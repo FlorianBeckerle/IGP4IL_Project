@@ -77,6 +77,7 @@ public class KeyPasswordGame : BombMinigame
             if (playerInput == correctCode)
             {
                 Debug.Log("Richtig!");
+                BombTimer.instance.AddSeconds(10);
                 ExitMinigame();
             }
             else

@@ -9,17 +9,39 @@ public class BombTimer : MonoBehaviour
     [SerializeField] private TMP_Text timerText;
 
     [Header("Runtime Info")] private int currentTime = 0;
+    
+    
+    [Header("Screen UI")]
+    [SerializeField]
+    private TMP_Text t_Score;
+
+    private int highScore = 0;
+    [SerializeField]
+    private TMP_Text t_Info;
+    
 
     [SerializeField]
     private bool isPaused = false;
 
-    
+    //singleton patter
+    public static BombTimer instance;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         currentTime = startTime;
-        
+
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+
+        timerText.text = calculateTime(startTime);
+
     }
 
     // Update is called once per frame
@@ -34,6 +56,9 @@ public class BombTimer : MonoBehaviour
     }
     private IEnumerator StartBombTimer()
     {
+        highScore = 0;
+        t_Score.text = highScore.ToString();
+        
         while (currentTime > 0)
         {
             while (isPaused)
@@ -42,10 +67,19 @@ public class BombTimer : MonoBehaviour
             }
             yield return new WaitForSeconds(1f); //every second
             currentTime -= 1;
+            highScore +=10;
             timerText.text = calculateTime(currentTime);
+            
+            //update highscore:
+            t_Score.text = "Score: " + highScore.ToString();
         }
         
         timerText.text = "Bomb Exploded";
+    }
+
+    public int GetTime()
+    {
+        return currentTime;
     }
 
 
@@ -62,6 +96,9 @@ public class BombTimer : MonoBehaviour
     public void AddSeconds(int seconds)
     {
         currentTime += + seconds;
+        highScore += seconds*10;
+        t_Score.text = "Score: " + highScore.ToString();
+        StartCoroutine(ShowInfoText());
     }
 
     public void PauseResumeTimer()
@@ -75,5 +112,12 @@ public class BombTimer : MonoBehaviour
         {
             timerText.color = Color.black;
         }
+    }
+
+    private IEnumerator ShowInfoText()
+    {
+        t_Info.enabled = true;
+        yield return new WaitForSeconds(1f);
+        t_Info.enabled = false;
     }
 }
