@@ -66,7 +66,7 @@ public class BombFrequency : BombMinigame
         maxFreqOffset = (maxFreq - minFreq) / 20; // (20-3) / 10 = 0.85
         maxAmpOffset = (maxAmp - minAmp) / 20;
 
-        //StartMinigame();
+        StartMinigame();
         SwitchUISliders(false);
     }
     
@@ -146,6 +146,7 @@ public class BombFrequency : BombMinigame
             Debug.Log("Frequency Minigame Complete!!");   
             ExitMinigame();
             BombTimer.instance.AddSeconds(10);
+            Debug.Log("Freq Minigame Light out");
             light.TurnOff();
             this.isStarted = false;
             
@@ -181,6 +182,7 @@ public class BombFrequency : BombMinigame
     private void StartFreqMinigame()
     {
         Debug.Log("Starting Frequency Minigame");
+        Debug.Log("Freq Minigame Light on");
         light.TurnOn();
         GenerateRandomTarget();
     }

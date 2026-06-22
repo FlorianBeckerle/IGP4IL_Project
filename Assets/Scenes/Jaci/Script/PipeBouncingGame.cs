@@ -12,6 +12,8 @@ public class PipeBouncingGame : BombMinigame
     //Frage: Welches Objekt ist der Balken?
     [SerializeField] private GameObject movingBar;
     [SerializeField] private GameObject[] movingBalls;
+
+    [SerializeField] private int[] velocities;
     //Frage: Wie schnell bewegt er sich?
     [SerializeField] private float moveSpeed = 1.5f;
     //Frage: Wie weit darf er sich bewegen?
@@ -31,6 +33,8 @@ public class PipeBouncingGame : BombMinigame
 
     void Start()
     {
+        velocities = new int[] { -1, 1, -1 };
+        
         StartMinigame();
     }
     
@@ -56,7 +60,7 @@ public class PipeBouncingGame : BombMinigame
 
         if (isInTarget)
         {
-            Debug.Log("Treffer!");
+            Debug.Log("Treffer!, next ball:" + currentBall +1);
 
 
             currentBall++;
@@ -80,7 +84,7 @@ public class PipeBouncingGame : BombMinigame
         }
         else
         {
-            Debug.Log("NONE");
+            Debug.Log("Pipe Bounce Cooldown startet.");
             StartCoroutine(CooldownRoutine());
         }
 
@@ -109,6 +113,26 @@ public class PipeBouncingGame : BombMinigame
         //Wenn ja: Richtung umdrehen
         //Neue Position wieder speichern
 
+        for (int i = 0; i < movingBalls.Length; i++)
+        {
+            if (!movingBalls[i].GetComponent<BouncingBall>().isMoving)
+            {
+                continue; 
+            }
+            Vector3 position = movingBalls[i].transform.position;
+            position.y += velocities[i] * moveSpeed * Time.deltaTime;
+
+            if (position.y <= minY )
+            {
+                velocities[i] = 1; //invert velocity
+            }else if (position.y >= maxY)
+            {
+                velocities[i] = -1;
+            }
+            
+            movingBalls[i].transform.position = position;
+        }
+        /*
         foreach(var ball in movingBalls)
         {
 
@@ -131,10 +155,7 @@ public class PipeBouncingGame : BombMinigame
 
             ball.transform.position = position;
 
-        }
-
-  
-
+        }*/
     }
 
     private IEnumerator LoopBallBounce()
