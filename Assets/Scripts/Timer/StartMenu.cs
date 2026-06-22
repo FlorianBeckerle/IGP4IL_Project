@@ -131,13 +131,19 @@ public class StartMenu : BombMinigame
     public void OnStartPressed()
     {
         startButton.interactable = false; //Disable start button since the game is already started
-        bombTimer.StartTimer();
+        if(!isStarted)
+            bombTimer.StartTimer();
         ExitMinigame();
     }
 
     public void OnPausePressed()
     {
         bombTimer.PauseResumeTimer();
+        //if bombtimer is now started again
+        if (!BombTimer.instance.isPaused)
+        {
+            ExitMinigame();
+        }
     }
 
     public void OnExitPressed()

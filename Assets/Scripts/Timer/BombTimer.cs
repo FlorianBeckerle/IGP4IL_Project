@@ -21,7 +21,7 @@ public class BombTimer : MonoBehaviour
     
 
     [SerializeField]
-    private bool isPaused = false;
+    public bool isPaused = false;
 
     //singleton patter
     public static BombTimer instance;
@@ -110,7 +110,7 @@ public class BombTimer : MonoBehaviour
         }
         else
         {
-            timerText.color = Color.black;
+            timerText.color = Color.white;
         }
     }
 

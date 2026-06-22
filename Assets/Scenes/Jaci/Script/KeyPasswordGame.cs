@@ -106,6 +106,7 @@ public class KeyPasswordGame : BombMinigame
 
     public override void StartMinigame()
     {
+        wantsToExit = false;
         light.TurnOn();
         GenerateRandomCode();
     }
@@ -129,6 +130,7 @@ public class KeyPasswordGame : BombMinigame
         wantsToExit = true;
 
         playerInput = "";
+        DelayTillNextStart();
 
     }
 }
